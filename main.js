@@ -1,5 +1,8 @@
 let color = "black";
-let click = true;
+let mouseDown = false;
+
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
 
 function fillBoard(size) {
   let board = document.querySelector(".board");
@@ -28,13 +31,15 @@ function changeSize(input) {
   }
 }
 
-function colorSquare() {
-  if (click) {
-    if (color === "random") {
-      this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-    } else {
-      this.style.backgroundColor = color;
-    }
+function colorSquare(e) {
+  if (e.type === "mouseover" && !mouseDown) return;
+  if (color === "random") {
+    const randomR = Math.floor(Math.random() * 256);
+    const randomG = Math.floor(Math.random() * 256);
+    const randomB = Math.floor(Math.random() * 256);
+    e.target.style.backgroundColor = `rgb(${randomR}, ${randomG}, ${randomB})`;
+  } else {
+    e.target.style.backgroundColor = color;
   }
 }
 
